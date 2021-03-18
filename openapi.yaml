@@ -104,4 +104,3 @@ components:
               description: True in case of a support ticket
       required:
         - data
-  examples: {}
