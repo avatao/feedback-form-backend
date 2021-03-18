@@ -1,0 +1,10 @@
+import os
+import secrets
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
+
+class Config:
+    SECRET_KEY = secrets.token_hex(32)
+    SQLALCHEMY_DATABASE_URI = "sqlite:////srv/mini-backend/database.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

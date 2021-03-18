@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: Mini-backend
+  description: API for the mini-backend
+  version: 1.0.0
+tags:
+  - name: feedbacks
+    description: Feedbacks related endpoints
+paths:
+  /feedbacks:
+    get:
+      tags:
+        - feedbacks
+      summary: Get every feedback
+      description: Mini-backend specific endpoint for easy feedback creation testing
+      operationId: TestFeedbacks
+      responses:
+        '200':
+          description: Returns an array of every feedback in the database
+    post:
+      tags:
+        - feedbacks
+      summary: Create a feedback
+      description: Creates a feedback (it must be a non-empty string with maximum 1000 characters)
+      operationId: CreateAFeedback
+      requestBody:
+        description: The new feedback's properties
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/ChallengeFeedbackCreationObject'
+                - $ref: '#/components/schemas/PlatformFeedbackCreationObject'
+      responses:
+        '201':
+          description: The feedback has been created
+        '400':
+          description: The client provided incorrect properties for the new feedback.
+        '401':
+          description: Authentication error.
+        '403':
+          description: The operation cannot be performed by the client
+components:
+  schemas:
+    FeedbackDataObject:
+      description: An object containing the feedback data
+      type: object
+      properties:
+        feedback:
+          type: string
+          description: Feedback text
+        score:
+          type: integer
+          description: Numerical score
+      required:
+        - feedback
+        - score
+    ChallengeFeedbackCreationObject:
+      description: An object containing the necessary data for a challenge feedback
+      type: object
+      properties:
+        challenge_id:
+          type: string
+          description: UUID of a challenge
+          example: ca92d318-e0b5-4ec4-aff7-9d265d7e22bb
+        data:
+          type: object
+          required:
+            - user_effort
+            - educational_value
+            - url
+          properties:
+            user_effort:
+              $ref: '#/components/schemas/FeedbackDataObject'
+            educational_value:
+              $ref: '#/components/schemas/FeedbackDataObject'
+            url:
+              description: URL for the challenge
+              type: string
+            is_support:
+              type: boolean
+              description: True in case of a support ticket
+      required:
+        - challenge_id
+        - data
+    PlatformFeedbackCreationObject:
+      description: An object containing the necessary data for a platform feedback
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - platform_ux
+            - url
+          properties:
+            platform_ux:
+              $ref: '#/components/schemas/FeedbackDataObject'
+            url:
+              description: URL where the feedback was sent from
+              type: string
+            is_support:
+              type: boolean
+              description: True in case of a support ticket
+      required:
+        - data
+  examples: {}
