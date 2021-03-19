@@ -1,4 +1,4 @@
-# Mini backend
+# Feedback form backend
 Currently supported endpoints:
 - /feedbacks
 
@@ -20,3 +20,6 @@ Two seeded users:
 
 ## API usage
 Please check `openapi.yaml` for more information.
+
+## License
+Property of Avatao
